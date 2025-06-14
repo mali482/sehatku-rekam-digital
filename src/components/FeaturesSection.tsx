@@ -1,8 +1,26 @@
 
 import React from 'react';
 import { FileText, UserCheck, Calendar, BarChart3, Lock, Clock } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 const FeaturesSection = () => {
+  const { toast } = useToast();
+
+  const handleDemoGratis = () => {
+    toast({
+      title: "Demo Gratis",
+      description: "Mengarahkan ke halaman demo gratis sistem EMR.",
+    });
+  };
+
+  const handleHubungiSales = () => {
+    toast({
+      title: "Hubungi Sales",
+      description: "Mengarahkan ke halaman kontak sales.",
+    });
+  };
+
   const features = [
     {
       icon: FileText,
@@ -110,10 +128,16 @@ const FeaturesSection = () => {
               untuk mengelola data pasien dan meningkatkan kualitas pelayanan.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+              <button 
+                onClick={handleDemoGratis}
+                className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+              >
                 Demo Gratis
               </button>
-              <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+              <button 
+                onClick={handleHubungiSales}
+                className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors"
+              >
                 Hubungi Sales
               </button>
             </div>

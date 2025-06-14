@@ -1,10 +1,13 @@
 
 import React, { useState } from 'react';
 import { Settings, ArrowLeft, User, Lock, Bell, Database, Shield, Monitor } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 const SettingsPage = () => {
   const [activeTab, setActiveTab] = useState('profile');
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   const tabs = [
     { id: 'profile', label: 'Profil', icon: User },
@@ -14,6 +17,34 @@ const SettingsPage = () => {
     { id: 'backup', label: 'Backup', icon: Database },
     { id: 'privacy', label: 'Privasi', icon: Shield }
   ];
+
+  const handleSaveProfile = () => {
+    toast({
+      title: "Profil Tersimpan",
+      description: "Data profil berhasil diperbarui.",
+    });
+  };
+
+  const handleUpdatePassword = () => {
+    toast({
+      title: "Password Diperbarui",
+      description: "Password berhasil diubah.",
+    });
+  };
+
+  const handleBackupNow = () => {
+    toast({
+      title: "Backup Dimulai",
+      description: "Proses backup sedang berjalan...",
+    });
+  };
+
+  const handleRestoreData = () => {
+    toast({
+      title: "Restore Data",
+      description: "Proses restore data dimulai...",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -72,7 +103,7 @@ const SettingsPage = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
                         <input
                           type="text"
-                          value="Dr. Ahmad Wijaya"
+                          defaultValue="Dr. Ahmad Wijaya"
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
                       </div>
@@ -80,7 +111,7 @@ const SettingsPage = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
                         <input
                           type="email"
-                          value="ahmad@medrecord.com"
+                          defaultValue="ahmad@medrecord.com"
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
                       </div>
@@ -90,7 +121,7 @@ const SettingsPage = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">Nomor Telepon</label>
                         <input
                           type="tel"
-                          value="+62 812-3456-7890"
+                          defaultValue="+62 812-3456-7890"
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
                       </div>
@@ -98,12 +129,15 @@ const SettingsPage = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">Spesialisasi</label>
                         <input
                           type="text"
-                          value="Dokter Umum"
+                          defaultValue="Dokter Umum"
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
                       </div>
                     </div>
-                    <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    <button 
+                      onClick={handleSaveProfile}
+                      className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    >
                       Simpan Perubahan
                     </button>
                   </div>
@@ -140,7 +174,10 @@ const SettingsPage = () => {
                         </div>
                       </div>
                     </div>
-                    <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    <button 
+                      onClick={handleUpdatePassword}
+                      className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    >
                       Update Password
                     </button>
                   </div>
@@ -206,14 +243,20 @@ const SettingsPage = () => {
                     <div className="border border-gray-200 rounded-lg p-4">
                       <h3 className="text-lg font-medium text-gray-900 mb-2">Backup Otomatis</h3>
                       <p className="text-gray-600 mb-4">Backup data dilakukan setiap hari pada pukul 02:00 WIB</p>
-                      <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                      <button 
+                        onClick={handleBackupNow}
+                        className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                      >
                         Buat Backup Sekarang
                       </button>
                     </div>
                     <div className="border border-gray-200 rounded-lg p-4">
                       <h3 className="text-lg font-medium text-gray-900 mb-2">Restore Data</h3>
                       <p className="text-gray-600 mb-4">Restore data dari backup sebelumnya</p>
-                      <button className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors">
+                      <button 
+                        onClick={handleRestoreData}
+                        className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors"
+                      >
                         Restore Data
                       </button>
                     </div>

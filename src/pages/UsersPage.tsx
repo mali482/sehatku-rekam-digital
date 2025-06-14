@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Users, Search, Filter, Plus, ArrowLeft, Edit, Trash2, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 const UsersPage = () => {
   const [users] = useState([
@@ -43,6 +44,37 @@ const UsersPage = () => {
     }
   ]);
 
+  const { toast } = useToast();
+
+  const handleAddUser = () => {
+    toast({
+      title: "Tambah Pengguna",
+      description: "Form tambah pengguna akan dibuka.",
+    });
+  };
+
+  const handleViewUser = (userName: string) => {
+    toast({
+      title: "Detail Pengguna",
+      description: `Melihat detail ${userName}`,
+    });
+  };
+
+  const handleEditUser = (userName: string) => {
+    toast({
+      title: "Edit Pengguna",
+      description: `Mengedit data ${userName}`,
+    });
+  };
+
+  const handleDeleteUser = (userName: string) => {
+    toast({
+      title: "Hapus Pengguna",
+      description: `Konfirmasi hapus ${userName}`,
+      variant: "destructive",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -78,7 +110,10 @@ const UsersPage = () => {
                 <Filter className="h-5 w-5 text-gray-500" />
                 <span>Filter</span>
               </button>
-              <button className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium flex items-center space-x-2">
+              <button 
+                onClick={handleAddUser}
+                className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium flex items-center space-x-2"
+              >
                 <Plus className="h-5 w-5" />
                 <span>Tambah Pengguna</span>
               </button>
@@ -142,13 +177,25 @@ const UsersPage = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-2">
-                        <button className="text-blue-600 hover:text-blue-900">
+                        <button 
+                          onClick={() => handleViewUser(user.name)}
+                          className="text-blue-600 hover:text-blue-900 p-1"
+                          title="Lihat Detail"
+                        >
                           <Eye className="h-4 w-4" />
                         </button>
-                        <button className="text-green-600 hover:text-green-900">
+                        <button 
+                          onClick={() => handleEditUser(user.name)}
+                          className="text-green-600 hover:text-green-900 p-1"
+                          title="Edit Pengguna"
+                        >
                           <Edit className="h-4 w-4" />
                         </button>
-                        <button className="text-red-600 hover:text-red-900">
+                        <button 
+                          onClick={() => handleDeleteUser(user.name)}
+                          className="text-red-600 hover:text-red-900 p-1"
+                          title="Hapus Pengguna"
+                        >
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
