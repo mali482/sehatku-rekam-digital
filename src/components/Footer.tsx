@@ -2,39 +2,8 @@
 import React from 'react';
 import { Stethoscope, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useToast } from '@/hooks/use-toast';
 
 const Footer = () => {
-  const { toast } = useToast();
-
-  const handleServiceClick = (service: string) => {
-    toast({
-      title: `${service}`,
-      description: `Mengarahkan ke halaman ${service.toLowerCase()}`,
-    });
-  };
-
-  const handleSupportClick = (support: string) => {
-    toast({
-      title: `${support}`,
-      description: `Mengarahkan ke halaman ${support.toLowerCase()}`,
-    });
-  };
-
-  const handleSocialClick = (platform: string) => {
-    toast({
-      title: `${platform}`,
-      description: `Membuka ${platform} di tab baru`,
-    });
-  };
-
-  const handleNewsletterSubscribe = () => {
-    toast({
-      title: "Newsletter",
-      description: "Berhasil subscribe newsletter!",
-    });
-  };
-
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -78,12 +47,12 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-6">Layanan Kami</h4>
             <ul className="space-y-3">
               <li>
-                <button 
-                  onClick={() => handleServiceClick("Rekam Medis Digital")}
-                  className="text-gray-300 hover:text-white transition-colors text-left"
+                <Link 
+                  to="/services"
+                  className="text-gray-300 hover:text-white transition-colors"
                 >
                   Rekam Medis Digital
-                </button>
+                </Link>
               </li>
               <li>
                 <Link 
@@ -110,20 +79,20 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <button 
-                  onClick={() => handleServiceClick("Integrasi Lab")}
-                  className="text-gray-300 hover:text-white transition-colors text-left"
+                <Link 
+                  to="/services"
+                  className="text-gray-300 hover:text-white transition-colors"
                 >
                   Integrasi Lab
-                </button>
+                </Link>
               </li>
               <li>
-                <button 
-                  onClick={() => handleServiceClick("Telemedicine")}
-                  className="text-gray-300 hover:text-white transition-colors text-left"
+                <Link 
+                  to="/services"
+                  className="text-gray-300 hover:text-white transition-colors"
                 >
                   Telemedicine
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
@@ -133,52 +102,52 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-6">Dukungan</h4>
             <ul className="space-y-3">
               <li>
-                <button 
-                  onClick={() => handleSupportClick("Dokumentasi")}
-                  className="text-gray-300 hover:text-white transition-colors text-left"
+                <Link 
+                  to="/support"
+                  className="text-gray-300 hover:text-white transition-colors"
                 >
                   Dokumentasi
-                </button>
+                </Link>
               </li>
               <li>
-                <button 
-                  onClick={() => handleSupportClick("Tutorial")}
-                  className="text-gray-300 hover:text-white transition-colors text-left"
+                <Link 
+                  to="/support"
+                  className="text-gray-300 hover:text-white transition-colors"
                 >
                   Tutorial
-                </button>
+                </Link>
               </li>
               <li>
-                <button 
-                  onClick={() => handleSupportClick("FAQ")}
-                  className="text-gray-300 hover:text-white transition-colors text-left"
+                <Link 
+                  to="/support"
+                  className="text-gray-300 hover:text-white transition-colors"
                 >
                   FAQ
-                </button>
+                </Link>
               </li>
               <li>
-                <button 
-                  onClick={() => handleSupportClick("Hubungi Support")}
-                  className="text-gray-300 hover:text-white transition-colors text-left"
+                <Link 
+                  to="/support"
+                  className="text-gray-300 hover:text-white transition-colors"
                 >
                   Hubungi Support
-                </button>
+                </Link>
               </li>
               <li>
-                <button 
-                  onClick={() => handleSupportClick("Training")}
-                  className="text-gray-300 hover:text-white transition-colors text-left"
+                <Link 
+                  to="/support"
+                  className="text-gray-300 hover:text-white transition-colors"
                 >
                   Training
-                </button>
+                </Link>
               </li>
               <li>
-                <button 
-                  onClick={() => handleSupportClick("Community")}
-                  className="text-gray-300 hover:text-white transition-colors text-left"
+                <Link 
+                  to="/support"
+                  className="text-gray-300 hover:text-white transition-colors"
                 >
                   Community
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
@@ -190,30 +159,30 @@ const Footer = () => {
             <div className="mb-6 lg:mb-0">
               <h4 className="text-lg font-semibold mb-4">Ikuti Kami</h4>
               <div className="flex space-x-4">
-                <button 
-                  onClick={() => handleSocialClick("Facebook")}
+                <Link 
+                  to="/social"
                   className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors"
                 >
                   <Facebook className="h-5 w-5" />
-                </button>
-                <button 
-                  onClick={() => handleSocialClick("Twitter")}
+                </Link>
+                <Link 
+                  to="/social"
                   className="w-10 h-10 bg-sky-500 rounded-lg flex items-center justify-center hover:bg-sky-600 transition-colors"
                 >
                   <Twitter className="h-5 w-5" />
-                </button>
-                <button 
-                  onClick={() => handleSocialClick("Instagram")}
+                </Link>
+                <Link 
+                  to="/social"
                   className="w-10 h-10 bg-pink-600 rounded-lg flex items-center justify-center hover:bg-pink-700 transition-colors"
                 >
                   <Instagram className="h-5 w-5" />
-                </button>
-                <button 
-                  onClick={() => handleSocialClick("LinkedIn")}
+                </Link>
+                <Link 
+                  to="/social"
                   className="w-10 h-10 bg-blue-700 rounded-lg flex items-center justify-center hover:bg-blue-800 transition-colors"
                 >
                   <Linkedin className="h-5 w-5" />
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -225,10 +194,7 @@ const Footer = () => {
                   placeholder="Email Anda"
                   className="px-4 py-3 bg-gray-800 border border-gray-700 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
                 />
-                <button 
-                  onClick={handleNewsletterSubscribe}
-                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-green-600 rounded-r-lg hover:from-blue-700 hover:to-green-700 transition-colors font-medium"
-                >
+                <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-green-600 rounded-r-lg hover:from-blue-700 hover:to-green-700 transition-colors font-medium">
                   Subscribe
                 </button>
               </div>
@@ -243,24 +209,24 @@ const Footer = () => {
               © 2024 MedRecord. Seluruh hak cipta dilindungi.
             </p>
             <div className="flex space-x-6">
-              <button 
-                onClick={() => handleSupportClick("Kebijakan Privasi")}
+              <Link 
+                to="/support"
                 className="text-gray-400 hover:text-white transition-colors"
               >
                 Kebijakan Privasi
-              </button>
-              <button 
-                onClick={() => handleSupportClick("Syarat & Ketentuan")}
+              </Link>
+              <Link 
+                to="/support"
                 className="text-gray-400 hover:text-white transition-colors"
               >
                 Syarat & Ketentuan
-              </button>
-              <button 
-                onClick={() => handleSupportClick("Cookie Policy")}
+              </Link>
+              <Link 
+                to="/support"
                 className="text-gray-400 hover:text-white transition-colors"
               >
                 Cookie Policy
-              </button>
+              </Link>
             </div>
           </div>
         </div>

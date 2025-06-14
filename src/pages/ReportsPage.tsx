@@ -31,10 +31,13 @@ const ReportsPage = () => {
               <Calendar className="h-6 w-6 text-blue-600" />
             </div>
             <p className="text-gray-600 mb-4">Data statistik pasien bulanan</p>
-            <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2">
+            <Link 
+              to="/reports/patients"
+              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2"
+            >
               <Download className="h-4 w-4" />
-              <span>Download PDF</span>
-            </button>
+              <span>Lihat Laporan</span>
+            </Link>
           </div>
 
           <div className="bg-white rounded-lg shadow-sm p-6">
@@ -43,10 +46,13 @@ const ReportsPage = () => {
               <TrendingUp className="h-6 w-6 text-green-600" />
             </div>
             <p className="text-gray-600 mb-4">Ringkasan pendapatan dan biaya</p>
-            <button className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2">
+            <Link 
+              to="/reports/financial"
+              className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2"
+            >
               <Download className="h-4 w-4" />
-              <span>Download Excel</span>
-            </button>
+              <span>Lihat Laporan</span>
+            </Link>
           </div>
 
           <div className="bg-white rounded-lg shadow-sm p-6">
@@ -55,10 +61,13 @@ const ReportsPage = () => {
               <BarChart3 className="h-6 w-6 text-purple-600" />
             </div>
             <p className="text-gray-600 mb-4">Analisis diagnosis dan treatment</p>
-            <button className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center space-x-2">
+            <Link 
+              to="/reports/medical"
+              className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center space-x-2"
+            >
               <Download className="h-4 w-4" />
-              <span>Download PDF</span>
-            </button>
+              <span>Lihat Laporan</span>
+            </Link>
           </div>
         </div>
 

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Users, Search, Filter, Plus, ArrowLeft, Edit, Trash2, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -46,24 +45,10 @@ const UsersPage = () => {
 
   const { toast } = useToast();
 
-  const handleAddUser = () => {
-    toast({
-      title: "Tambah Pengguna",
-      description: "Form tambah pengguna akan dibuka.",
-    });
-  };
-
   const handleViewUser = (userName: string) => {
     toast({
       title: "Detail Pengguna",
       description: `Melihat detail ${userName}`,
-    });
-  };
-
-  const handleEditUser = (userName: string) => {
-    toast({
-      title: "Edit Pengguna",
-      description: `Mengedit data ${userName}`,
     });
   };
 
@@ -110,13 +95,13 @@ const UsersPage = () => {
                 <Filter className="h-5 w-5 text-gray-500" />
                 <span>Filter</span>
               </button>
-              <button 
-                onClick={handleAddUser}
+              <Link 
+                to="/users/add"
                 className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium flex items-center space-x-2"
               >
                 <Plus className="h-5 w-5" />
                 <span>Tambah Pengguna</span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -184,13 +169,13 @@ const UsersPage = () => {
                         >
                           <Eye className="h-4 w-4" />
                         </button>
-                        <button 
-                          onClick={() => handleEditUser(user.name)}
+                        <Link 
+                          to={`/users/edit/${user.id}`}
                           className="text-green-600 hover:text-green-900 p-1"
                           title="Edit Pengguna"
                         >
                           <Edit className="h-4 w-4" />
-                        </button>
+                        </Link>
                         <button 
                           onClick={() => handleDeleteUser(user.name)}
                           className="text-red-600 hover:text-red-900 p-1"
