@@ -38,6 +38,9 @@ const Header = () => {
             <Link to="/reports" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Laporan
             </Link>
+            <Link to="/users" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+              Manajemen Pengguna
+            </Link>
           </nav>
 
           {/* User Menu */}
@@ -48,9 +51,9 @@ const Header = () => {
               </div>
               <span className="text-sm font-medium text-gray-700">Dr. Ahmad</span>
             </div>
-            <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+            <Link to="/settings" className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <Settings className="h-5 w-5" />
-            </button>
+            </Link>
             <Link to="/login" className="p-2 text-gray-400 hover:text-red-600 transition-colors">
               <LogOut className="h-5 w-5" />
             </Link>
@@ -84,12 +87,18 @@ const Header = () => {
               <Link to="/reports" className="text-gray-700 hover:text-blue-600 font-medium">
                 Laporan
               </Link>
+              <Link to="/users" className="text-gray-700 hover:text-blue-600 font-medium">
+                Manajemen Pengguna
+              </Link>
               <div className="flex items-center space-x-2 pt-4 border-t border-gray-200">
                 <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                   <User className="h-4 w-4 text-white" />
                 </div>
                 <span className="text-sm font-medium text-gray-700">Dr. Ahmad</span>
               </div>
+              <Link to="/settings" className="text-gray-700 hover:text-blue-600 font-medium">
+                Pengaturan
+              </Link>
               <Link to="/login" className="text-red-600 hover:text-red-800 font-medium">
                 Logout
               </Link>

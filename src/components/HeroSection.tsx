@@ -1,8 +1,16 @@
 
 import React from 'react';
 import { Shield, Database, Users, TrendingUp } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
+  const scrollToDashboard = () => {
+    const dashboardElement = document.getElementById('dashboard');
+    if (dashboardElement) {
+      dashboardElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="bg-gradient-to-br from-blue-50 via-white to-green-50 py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,12 +26,18 @@ const HeroSection = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+              <button 
+                onClick={scrollToDashboard}
+                className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              >
                 Mulai Sekarang
               </button>
-              <button className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold hover:border-gray-400 hover:bg-gray-50 transition-all duration-200">
+              <Link 
+                to="/register"
+                className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold hover:border-gray-400 hover:bg-gray-50 transition-all duration-200 text-center"
+              >
                 Pelajari Lebih Lanjut
-              </button>
+              </Link>
             </div>
 
             {/* Stats */}
