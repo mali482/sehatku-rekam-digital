@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Users, FileText, Calendar, TrendingUp, Plus, Search, Filter } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import PatientTable from './PatientTable';
 import AddPatientForm from './AddPatientForm';
 import StatsCards from './StatsCards';
@@ -68,7 +69,10 @@ const Dashboard = () => {
                   </div>
                 </button>
                 
-                <button className="flex items-center space-x-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition-all group">
+                <Link 
+                  to="/records"
+                  className="flex items-center space-x-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition-all group"
+                >
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors">
                     <FileText className="h-6 w-6 text-green-600" />
                   </div>
@@ -76,9 +80,12 @@ const Dashboard = () => {
                     <div className="font-semibold text-gray-900">Rekam Medis Baru</div>
                     <div className="text-sm text-gray-600">Buat catatan medis</div>
                   </div>
-                </button>
+                </Link>
                 
-                <button className="flex items-center space-x-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-all group">
+                <Link 
+                  to="/schedule"
+                  className="flex items-center space-x-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-all group"
+                >
                   <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-colors">
                     <Calendar className="h-6 w-6 text-purple-600" />
                   </div>
@@ -86,7 +93,7 @@ const Dashboard = () => {
                     <div className="font-semibold text-gray-900">Jadwal Konsultasi</div>
                     <div className="text-sm text-gray-600">Atur jadwal baru</div>
                   </div>
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -129,9 +136,12 @@ const Dashboard = () => {
             <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Rekam Medis</h3>
             <p className="text-gray-600 mb-6">Kelola semua rekam medis pasien di sini</p>
-            <button className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
+            <Link 
+              to="/records"
+              className="inline-block bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors"
+            >
               Buat Rekam Medis Baru
-            </button>
+            </Link>
           </div>
         )}
 
@@ -140,9 +150,12 @@ const Dashboard = () => {
             <Calendar className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Jadwal Konsultasi</h3>
             <p className="text-gray-600 mb-6">Atur dan kelola jadwal konsultasi pasien</p>
-            <button className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors">
+            <Link 
+              to="/schedule"
+              className="inline-block bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors"
+            >
               Tambah Jadwal Baru
-            </button>
+            </Link>
           </div>
         )}
 

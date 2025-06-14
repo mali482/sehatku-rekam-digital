@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Menu, X, Stethoscope, User, Settings, LogOut } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,7 +11,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2">
             <div className="bg-gradient-to-r from-blue-600 to-green-600 p-2 rounded-lg">
               <Stethoscope className="h-6 w-6 text-white" />
             </div>
@@ -18,22 +19,25 @@ const Header = () => {
               <h1 className="text-xl font-bold text-gray-900">MedRecord</h1>
               <p className="text-xs text-gray-500">Electronic Medical Records</p>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#dashboard" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            <Link to="/" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Dashboard
-            </a>
-            <a href="#patients" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            </Link>
+            <Link to="/patients" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Pasien
-            </a>
-            <a href="#records" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            </Link>
+            <Link to="/records" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Rekam Medis
-            </a>
-            <a href="#reports" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+            </Link>
+            <Link to="/schedule" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+              Jadwal
+            </Link>
+            <Link to="/reports" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Laporan
-            </a>
+            </Link>
           </nav>
 
           {/* User Menu */}
@@ -47,9 +51,9 @@ const Header = () => {
             <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <Settings className="h-5 w-5" />
             </button>
-            <button className="p-2 text-gray-400 hover:text-red-600 transition-colors">
+            <Link to="/login" className="p-2 text-gray-400 hover:text-red-600 transition-colors">
               <LogOut className="h-5 w-5" />
-            </button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -65,24 +69,30 @@ const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-200">
             <div className="flex flex-col space-y-4">
-              <a href="#dashboard" className="text-gray-700 hover:text-blue-600 font-medium">
+              <Link to="/" className="text-gray-700 hover:text-blue-600 font-medium">
                 Dashboard
-              </a>
-              <a href="#patients" className="text-gray-700 hover:text-blue-600 font-medium">
+              </Link>
+              <Link to="/patients" className="text-gray-700 hover:text-blue-600 font-medium">
                 Pasien
-              </a>
-              <a href="#records" className="text-gray-700 hover:text-blue-600 font-medium">
+              </Link>
+              <Link to="/records" className="text-gray-700 hover:text-blue-600 font-medium">
                 Rekam Medis
-              </a>
-              <a href="#reports" className="text-gray-700 hover:text-blue-600 font-medium">
+              </Link>
+              <Link to="/schedule" className="text-gray-700 hover:text-blue-600 font-medium">
+                Jadwal
+              </Link>
+              <Link to="/reports" className="text-gray-700 hover:text-blue-600 font-medium">
                 Laporan
-              </a>
+              </Link>
               <div className="flex items-center space-x-2 pt-4 border-t border-gray-200">
                 <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                   <User className="h-4 w-4 text-white" />
                 </div>
                 <span className="text-sm font-medium text-gray-700">Dr. Ahmad</span>
               </div>
+              <Link to="/login" className="text-red-600 hover:text-red-800 font-medium">
+                Logout
+              </Link>
             </div>
           </div>
         )}
