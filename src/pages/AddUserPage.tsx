@@ -1,10 +1,11 @@
 
 import React, { useState } from 'react';
-import { ArrowLeft, User, Mail, Phone, Shield } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ArrowLeft, User, Mail, Phone, Shield, Lock } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 
 const AddUserPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -16,10 +17,38 @@ const AddUserPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Pengguna Berhasil Ditambahkan",
-      description: `${formData.name} telah ditambahkan sebagai ${formData.role}`,
-    });
+    
+    // Validasi form
+    if (!formData.name || !formData.email || !formData.phone || !formData.password) {
+      toast({
+        title: "Error",
+        description: "Harap isi semua field yang wajib",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      toast({
+        title: "Error",
+        description: "Password minimal 6 karakter",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Simulasi proses penambahan
+    setTimeout(() => {
+      toast({
+        title: "Pengguna Berhasil Ditambahkan",
+        description: `${formData.name} telah ditambahkan sebagai ${formData.role}`,
+      });
+      
+      // Redirect ke halaman users setelah 1 detik
+      setTimeout(() => {
+        navigate('/users');
+      }, 1000);
+    }, 500);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -50,7 +79,7 @@ const AddUserPage = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <User className="inline h-4 w-4 mr-2" />
-                  Nama Lengkap
+                  Nama Lengkap *
                 </label>
                 <input
                   type="text"
@@ -59,13 +88,14 @@ const AddUserPage = () => {
                   onChange={handleChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
+                  placeholder="Masukkan nama lengkap"
                 />
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <Mail className="inline h-4 w-4 mr-2" />
-                  Email
+                  Email *
                 </label>
                 <input
                   type="email"
@@ -74,13 +104,14 @@ const AddUserPage = () => {
                   onChange={handleChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
+                  placeholder="contoh@email.com"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <Phone className="inline h-4 w-4 mr-2" />
-                  Nomor Telepon
+                  Nomor Telepon *
                 </label>
                 <input
                   type="tel"
@@ -89,6 +120,7 @@ const AddUserPage = () => {
                   onChange={handleChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
+                  placeholder="+62 xxx-xxxx-xxxx"
                 />
               </div>
 
@@ -113,7 +145,8 @@ const AddUserPage = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+                <Lock className="inline h-4 w-4 mr-2" />
+                Password *
               </label>
               <input
                 type="password"
@@ -122,10 +155,13 @@ const AddUserPage = () => {
                 onChange={handleChange}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
+                placeholder="Minimal 6 karakter"
+                minLength={6}
               />
+              <p className="text-sm text-gray-500 mt-1">Password minimal 6 karakter</p>
             </div>
 
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 pt-4 border-t border-gray-200">
               <button
                 type="submit"
                 className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
@@ -134,7 +170,7 @@ const AddUserPage = () => {
               </button>
               <Link
                 to="/users"
-                className="bg-gray-300 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-400 transition-colors font-medium"
+                className="bg-gray-300 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-400 transition-colors font-medium inline-flex items-center"
               >
                 Batal
               </Link>

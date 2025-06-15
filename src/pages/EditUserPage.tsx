@@ -1,11 +1,12 @@
 
 import React, { useState } from 'react';
 import { ArrowLeft, User, Mail, Phone, Shield } from 'lucide-react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 
 const EditUserPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: 'Dr. Ahmad Wijaya',
     email: 'ahmad@medrecord.com',
@@ -16,10 +17,29 @@ const EditUserPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Pengguna Berhasil Diperbarui",
-      description: `Data ${formData.name} telah diperbarui`,
-    });
+    
+    // Validasi form
+    if (!formData.name || !formData.email || !formData.phone) {
+      toast({
+        title: "Error",
+        description: "Harap isi semua field yang wajib",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Simulasi proses update
+    setTimeout(() => {
+      toast({
+        title: "Pengguna Berhasil Diperbarui",
+        description: `Data ${formData.name} telah diperbarui`,
+      });
+      
+      // Redirect ke halaman users setelah 1 detik
+      setTimeout(() => {
+        navigate('/users');
+      }, 1000);
+    }, 500);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -50,7 +70,7 @@ const EditUserPage = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <User className="inline h-4 w-4 mr-2" />
-                  Nama Lengkap
+                  Nama Lengkap *
                 </label>
                 <input
                   type="text"
@@ -65,7 +85,7 @@ const EditUserPage = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <Mail className="inline h-4 w-4 mr-2" />
-                  Email
+                  Email *
                 </label>
                 <input
                   type="email"
@@ -80,7 +100,7 @@ const EditUserPage = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <Phone className="inline h-4 w-4 mr-2" />
-                  Nomor Telepon
+                  Nomor Telepon *
                 </label>
                 <input
                   type="tel"
@@ -111,7 +131,7 @@ const EditUserPage = () => {
               </div>
             </div>
 
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 pt-4 border-t border-gray-200">
               <button
                 type="submit"
                 className="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium"
@@ -120,7 +140,7 @@ const EditUserPage = () => {
               </button>
               <Link
                 to="/users"
-                className="bg-gray-300 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-400 transition-colors font-medium"
+                className="bg-gray-300 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-400 transition-colors font-medium inline-flex items-center"
               >
                 Batal
               </Link>
