@@ -2,11 +2,22 @@
 import React, { useState } from 'react';
 import { X, User, Phone, Mail, Calendar, MapPin, Heart } from 'lucide-react';
 
-interface AddPatientFormProps {
-  onClose: () => void;
+interface Patient {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  phone: string;
+  email: string;
+  address: string;
 }
 
-const AddPatientForm: React.FC<AddPatientFormProps> = ({ onClose }) => {
+interface AddPatientFormProps {
+  onClose: () => void;
+  onSave: (patientData: Omit<Patient, 'id'>) => void;
+}
+
+const AddPatientForm: React.FC<AddPatientFormProps> = ({ onClose, onSave }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -32,10 +43,32 @@ const AddPatientForm: React.FC<AddPatientFormProps> = ({ onClose }) => {
     }));
   };
 
+  const calculateAge = (dateOfBirth: string) => {
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    
+    return age;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Here you would typically send the data to your backend
+    
+    const patientData = {
+      name: `${formData.firstName} ${formData.lastName}`,
+      age: calculateAge(formData.dateOfBirth),
+      gender: formData.gender,
+      phone: formData.phone,
+      email: formData.email,
+      address: `${formData.address}, ${formData.city}`.trim().replace(/^,/, '').replace(/,$/, '')
+    };
+    
+    onSave(patientData);
     onClose();
   };
 
