@@ -5,10 +5,42 @@ import { Link } from 'react-router-dom';
 import PatientTable from './PatientTable';
 import AddPatientForm from './AddPatientForm';
 import StatsCards from './StatsCards';
+import { useToast } from '@/hooks/use-toast';
+
+interface Patient {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  phone: string;
+  email: string;
+  address: string;
+}
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [showAddForm, setShowAddForm] = useState(false);
+  const [patients, setPatients] = useState<Patient[]>([
+    {
+      id: 1,
+      name: 'Budi Santoso',
+      age: 45,
+      gender: 'Laki-laki',
+      phone: '+62 812-3456-7890',
+      email: 'budi@email.com',
+      address: 'Jakarta'
+    },
+    {
+      id: 2,
+      name: 'Siti Rahayu',
+      age: 38,
+      gender: 'Perempuan',
+      phone: '+62 813-4567-8901',
+      email: 'siti@email.com',
+      address: 'Bandung'
+    }
+  ]);
+  const { toast } = useToast();
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: TrendingUp },
@@ -16,6 +48,45 @@ const Dashboard = () => {
     { id: 'records', label: 'Rekam Medis', icon: FileText },
     { id: 'schedule', label: 'Jadwal', icon: Calendar }
   ];
+
+  const handleAddPatient = (patientData: Omit<Patient, 'id'>) => {
+    const newPatient: Patient = {
+      id: patients.length + 1,
+      ...patientData
+    };
+    setPatients([...patients, newPatient]);
+    
+    toast({
+      title: "Pasien Ditambahkan",
+      description: `${patientData.name} berhasil ditambahkan ke sistem`,
+    });
+  };
+
+  const handleEditPatient = (patientId: number, updatedData: Partial<Patient>) => {
+    const updatedPatients = patients.map(patient => 
+      patient.id === patientId 
+        ? { ...patient, ...updatedData }
+        : patient
+    );
+    setPatients(updatedPatients);
+    
+    toast({
+      title: "Data Pasien Diperbarui",
+      description: "Informasi pasien berhasil diperbarui",
+    });
+  };
+
+  const handleDeletePatient = (patientId: number) => {
+    const patientToDelete = patients.find(p => p.id === patientId);
+    const updatedPatients = patients.filter(patient => patient.id !== patientId);
+    setPatients(updatedPatients);
+    
+    toast({
+      title: "Pasien Dihapus",
+      description: `${patientToDelete?.name} telah dihapus dari sistem`,
+      variant: "destructive",
+    });
+  };
 
   return (
     <section id="dashboard" className="py-20 bg-gray-50">
@@ -127,7 +198,11 @@ const Dashboard = () => {
               </div>
             </div>
             
-            <PatientTable />
+            <PatientTable 
+              patients={patients}
+              onEditPatient={handleEditPatient}
+              onDeletePatient={handleDeletePatient}
+            />
           </div>
         )}
 
@@ -161,7 +236,10 @@ const Dashboard = () => {
 
         {/* Add Patient Modal */}
         {showAddForm && (
-          <AddPatientForm onClose={() => setShowAddForm(false)} />
+          <AddPatientForm 
+            onClose={() => setShowAddForm(false)} 
+            onSave={handleAddPatient}
+          />
         )}
       </div>
     </section>
