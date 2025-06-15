@@ -2,8 +2,25 @@
 import React from 'react';
 import { ArrowLeft, Download, DollarSign, TrendingUp, CreditCard } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 const FinancialReportPage = () => {
+  const { toast } = useToast();
+
+  const handleDownloadExcel = () => {
+    toast({
+      title: "Download Laporan",
+      description: "Laporan keuangan sedang diunduh dalam format Excel...",
+    });
+    // Simulate Excel download
+    setTimeout(() => {
+      const link = document.createElement('a');
+      link.href = 'data:application/vnd.ms-excel;base64,'; // In real app, this would be actual Excel data
+      link.download = 'laporan-keuangan.xlsx';
+      link.click();
+    }, 1000);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -54,7 +71,10 @@ const FinancialReportPage = () => {
         <div className="bg-white rounded-lg shadow-sm p-6">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-xl font-bold text-gray-900">Laporan Keuangan Detail</h3>
-            <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2">
+            <button 
+              onClick={handleDownloadExcel}
+              className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2"
+            >
               <Download className="h-4 w-4" />
               <span>Download Excel</span>
             </button>

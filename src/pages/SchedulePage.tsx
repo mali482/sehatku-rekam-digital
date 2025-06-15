@@ -2,9 +2,34 @@
 import React, { useState } from 'react';
 import { Calendar, Plus, ArrowLeft, Clock, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 const SchedulePage = () => {
   const [showAddForm, setShowAddForm] = useState(false);
+  const { toast } = useToast();
+
+  const handleSaveSchedule = () => {
+    toast({
+      title: "Jadwal Tersimpan",
+      description: "Jadwal konsultasi berhasil ditambahkan",
+    });
+    setShowAddForm(false);
+  };
+
+  const handleEditSchedule = (patientName: string) => {
+    toast({
+      title: "Edit Jadwal",
+      description: `Mengedit jadwal untuk ${patientName}`,
+    });
+  };
+
+  const handleDeleteSchedule = (patientName: string) => {
+    toast({
+      title: "Hapus Jadwal",
+      description: `Jadwal ${patientName} telah dihapus`,
+      variant: "destructive",
+    });
+  };
 
   const mockSchedules = [
     {
@@ -94,8 +119,18 @@ const SchedulePage = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm">
-                      <button className="text-blue-600 hover:text-blue-800 mr-3">Edit</button>
-                      <button className="text-red-600 hover:text-red-800">Hapus</button>
+                      <button 
+                        onClick={() => handleEditSchedule(schedule.patientName)}
+                        className="text-blue-600 hover:text-blue-800 mr-3"
+                      >
+                        Edit
+                      </button>
+                      <button 
+                        onClick={() => handleDeleteSchedule(schedule.patientName)}
+                        className="text-red-600 hover:text-red-800"
+                      >
+                        Hapus
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -142,7 +177,10 @@ const SchedulePage = () => {
                 >
                   Batal
                 </button>
-                <button className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+                <button 
+                  onClick={handleSaveSchedule}
+                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                >
                   Simpan
                 </button>
               </div>

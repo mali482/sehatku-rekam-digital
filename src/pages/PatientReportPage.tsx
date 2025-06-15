@@ -2,8 +2,25 @@
 import React from 'react';
 import { ArrowLeft, Download, Calendar, Users, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 const PatientReportPage = () => {
+  const { toast } = useToast();
+
+  const handleDownloadPDF = () => {
+    toast({
+      title: "Download Laporan",
+      description: "Laporan pasien sedang diunduh dalam format PDF...",
+    });
+    // Simulate PDF download
+    setTimeout(() => {
+      const link = document.createElement('a');
+      link.href = 'data:application/pdf;base64,'; // In real app, this would be actual PDF data
+      link.download = 'laporan-pasien.pdf';
+      link.click();
+    }, 1000);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -54,7 +71,10 @@ const PatientReportPage = () => {
         <div className="bg-white rounded-lg shadow-sm p-6">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-xl font-bold text-gray-900">Laporan Detail</h3>
-            <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
+            <button 
+              onClick={handleDownloadPDF}
+              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+            >
               <Download className="h-4 w-4" />
               <span>Download PDF</span>
             </button>
