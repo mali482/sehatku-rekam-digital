@@ -4,34 +4,28 @@ import { Calendar, Plus, ArrowLeft, Clock, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 
+interface Schedule {
+  id: number;
+  patientName: string;
+  time: string;
+  date: string;
+  type: string;
+  status: string;
+}
+
 const SchedulePage = () => {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editingSchedule, setEditingSchedule] = useState<Schedule | null>(null);
+  const [formData, setFormData] = useState({
+    patientName: '',
+    date: '',
+    time: '',
+    type: ''
+  });
   const { toast } = useToast();
 
-  const handleSaveSchedule = () => {
-    toast({
-      title: "Jadwal Tersimpan",
-      description: "Jadwal konsultasi berhasil ditambahkan",
-    });
-    setShowAddForm(false);
-  };
-
-  const handleEditSchedule = (patientName: string) => {
-    toast({
-      title: "Edit Jadwal",
-      description: `Mengedit jadwal untuk ${patientName}`,
-    });
-  };
-
-  const handleDeleteSchedule = (patientName: string) => {
-    toast({
-      title: "Hapus Jadwal",
-      description: `Jadwal ${patientName} telah dihapus`,
-      variant: "destructive",
-    });
-  };
-
-  const mockSchedules = [
+  const [schedules, setSchedules] = useState<Schedule[]>([
     {
       id: 1,
       patientName: 'Budi Santoso',
@@ -48,7 +42,95 @@ const SchedulePage = () => {
       type: 'Kontrol Diabetes',
       status: 'Selesai'
     }
-  ];
+  ]);
+
+  const handleSaveSchedule = () => {
+    if (!formData.patientName || !formData.date || !formData.time || !formData.type) {
+      toast({
+        title: "Error",
+        description: "Semua field harus diisi",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const newSchedule: Schedule = {
+      id: schedules.length + 1,
+      patientName: formData.patientName,
+      time: formData.time,
+      date: formData.date,
+      type: formData.type,
+      status: 'Terjadwal'
+    };
+
+    setSchedules([...schedules, newSchedule]);
+    setFormData({ patientName: '', date: '', time: '', type: '' });
+    setShowAddForm(false);
+    
+    toast({
+      title: "Jadwal Tersimpan",
+      description: "Jadwal konsultasi berhasil ditambahkan",
+    });
+  };
+
+  const handleEditSchedule = (schedule: Schedule) => {
+    setEditingSchedule(schedule);
+    setFormData({
+      patientName: schedule.patientName,
+      date: schedule.date,
+      time: schedule.time,
+      type: schedule.type
+    });
+    setShowEditForm(true);
+  };
+
+  const handleUpdateSchedule = () => {
+    if (!editingSchedule) return;
+
+    if (!formData.patientName || !formData.date || !formData.time || !formData.type) {
+      toast({
+        title: "Error",
+        description: "Semua field harus diisi",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const updatedSchedules = schedules.map(schedule => 
+      schedule.id === editingSchedule.id 
+        ? { ...schedule, ...formData }
+        : schedule
+    );
+
+    setSchedules(updatedSchedules);
+    setShowEditForm(false);
+    setEditingSchedule(null);
+    setFormData({ patientName: '', date: '', time: '', type: '' });
+
+    toast({
+      title: "Jadwal Diperbarui",
+      description: `Jadwal ${formData.patientName} berhasil diperbarui`,
+    });
+  };
+
+  const handleDeleteSchedule = (scheduleId: number) => {
+    const scheduleToDelete = schedules.find(s => s.id === scheduleId);
+    const updatedSchedules = schedules.filter(schedule => schedule.id !== scheduleId);
+    setSchedules(updatedSchedules);
+
+    toast({
+      title: "Jadwal Dihapus",
+      description: `Jadwal ${scheduleToDelete?.patientName} telah dihapus`,
+      variant: "destructive",
+    });
+  };
+
+  const resetForm = () => {
+    setFormData({ patientName: '', date: '', time: '', type: '' });
+    setShowAddForm(false);
+    setShowEditForm(false);
+    setEditingSchedule(null);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -98,7 +180,7 @@ const SchedulePage = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {mockSchedules.map((schedule) => (
+                {schedules.map((schedule) => (
                   <tr key={schedule.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 text-sm font-medium text-gray-900">
                       <div className="flex items-center space-x-2">
@@ -120,13 +202,13 @@ const SchedulePage = () => {
                     </td>
                     <td className="px-6 py-4 text-sm">
                       <button 
-                        onClick={() => handleEditSchedule(schedule.patientName)}
+                        onClick={() => handleEditSchedule(schedule)}
                         className="text-blue-600 hover:text-blue-800 mr-3"
                       >
                         Edit
                       </button>
                       <button 
-                        onClick={() => handleDeleteSchedule(schedule.patientName)}
+                        onClick={() => handleDeleteSchedule(schedule.id)}
                         className="text-red-600 hover:text-red-800"
                       >
                         Hapus
@@ -147,32 +229,51 @@ const SchedulePage = () => {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Pasien</label>
-                  <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
-                    <option>Pilih Pasien</option>
-                    <option>Budi Santoso</option>
-                    <option>Siti Rahayu</option>
+                  <select 
+                    value={formData.patientName}
+                    onChange={(e) => setFormData({...formData, patientName: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                  >
+                    <option value="">Pilih Pasien</option>
+                    <option value="Budi Santoso">Budi Santoso</option>
+                    <option value="Siti Rahayu">Siti Rahayu</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
-                  <input type="date" className="w-full border border-gray-300 rounded-lg px-3 py-2" />
+                  <input 
+                    type="date" 
+                    value={formData.date}
+                    onChange={(e) => setFormData({...formData, date: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2" 
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Waktu</label>
-                  <input type="time" className="w-full border border-gray-300 rounded-lg px-3 py-2" />
+                  <input 
+                    type="time" 
+                    value={formData.time}
+                    onChange={(e) => setFormData({...formData, time: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2" 
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Jenis Konsultasi</label>
-                  <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
-                    <option>Konsultasi Rutin</option>
-                    <option>Kontrol Diabetes</option>
-                    <option>Pemeriksaan Kesehatan</option>
+                  <select 
+                    value={formData.type}
+                    onChange={(e) => setFormData({...formData, type: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                  >
+                    <option value="">Pilih Jenis</option>
+                    <option value="Konsultasi Rutin">Konsultasi Rutin</option>
+                    <option value="Kontrol Diabetes">Kontrol Diabetes</option>
+                    <option value="Pemeriksaan Kesehatan">Pemeriksaan Kesehatan</option>
                   </select>
                 </div>
               </div>
               <div className="flex justify-end space-x-3 mt-6">
                 <button 
-                  onClick={() => setShowAddForm(false)}
+                  onClick={resetForm}
                   className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
                 >
                   Batal
@@ -182,6 +283,74 @@ const SchedulePage = () => {
                   className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
                 >
                   Simpan
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Edit Schedule Modal */}
+        {showEditForm && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Edit Jadwal</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Pasien</label>
+                  <select 
+                    value={formData.patientName}
+                    onChange={(e) => setFormData({...formData, patientName: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                  >
+                    <option value="">Pilih Pasien</option>
+                    <option value="Budi Santoso">Budi Santoso</option>
+                    <option value="Siti Rahayu">Siti Rahayu</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
+                  <input 
+                    type="date" 
+                    value={formData.date}
+                    onChange={(e) => setFormData({...formData, date: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Waktu</label>
+                  <input 
+                    type="time" 
+                    value={formData.time}
+                    onChange={(e) => setFormData({...formData, time: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Jenis Konsultasi</label>
+                  <select 
+                    value={formData.type}
+                    onChange={(e) => setFormData({...formData, type: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                  >
+                    <option value="">Pilih Jenis</option>
+                    <option value="Konsultasi Rutin">Konsultasi Rutin</option>
+                    <option value="Kontrol Diabetes">Kontrol Diabetes</option>
+                    <option value="Pemeriksaan Kesehatan">Pemeriksaan Kesehatan</option>
+                  </select>
+                </div>
+              </div>
+              <div className="flex justify-end space-x-3 mt-6">
+                <button 
+                  onClick={resetForm}
+                  className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                >
+                  Batal
+                </button>
+                <button 
+                  onClick={handleUpdateSchedule}
+                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                >
+                  Update
                 </button>
               </div>
             </div>

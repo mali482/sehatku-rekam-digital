@@ -4,34 +4,28 @@ import { FileText, Search, Plus, ArrowLeft, Edit, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 
+interface MedicalRecord {
+  id: number;
+  patientName: string;
+  diagnosis: string;
+  treatment: string;
+  date: string;
+  doctor: string;
+}
+
 const RecordsPage = () => {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editingRecord, setEditingRecord] = useState<MedicalRecord | null>(null);
+  const [formData, setFormData] = useState({
+    patientName: '',
+    diagnosis: '',
+    treatment: '',
+    doctor: ''
+  });
   const { toast } = useToast();
 
-  const handleSaveRecord = () => {
-    toast({
-      title: "Rekam Medis Tersimpan",
-      description: "Rekam medis baru berhasil ditambahkan",
-    });
-    setShowAddForm(false);
-  };
-
-  const handleEditRecord = (patientName: string) => {
-    toast({
-      title: "Edit Rekam Medis",
-      description: `Mengedit rekam medis ${patientName}`,
-    });
-  };
-
-  const handleDeleteRecord = (patientName: string) => {
-    toast({
-      title: "Hapus Rekam Medis",
-      description: `Rekam medis ${patientName} telah dihapus`,
-      variant: "destructive",
-    });
-  };
-
-  const mockRecords = [
+  const [records, setRecords] = useState<MedicalRecord[]>([
     {
       id: 1,
       patientName: 'Budi Santoso',
@@ -48,7 +42,95 @@ const RecordsPage = () => {
       date: '2024-01-14',
       doctor: 'Dr. Sarah'
     }
-  ];
+  ]);
+
+  const handleSaveRecord = () => {
+    if (!formData.patientName || !formData.diagnosis || !formData.treatment || !formData.doctor) {
+      toast({
+        title: "Error",
+        description: "Semua field harus diisi",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const newRecord: MedicalRecord = {
+      id: records.length + 1,
+      patientName: formData.patientName,
+      diagnosis: formData.diagnosis,
+      treatment: formData.treatment,
+      date: new Date().toISOString().split('T')[0],
+      doctor: formData.doctor
+    };
+
+    setRecords([...records, newRecord]);
+    setFormData({ patientName: '', diagnosis: '', treatment: '', doctor: '' });
+    setShowAddForm(false);
+    
+    toast({
+      title: "Rekam Medis Tersimpan",
+      description: "Rekam medis baru berhasil ditambahkan",
+    });
+  };
+
+  const handleEditRecord = (record: MedicalRecord) => {
+    setEditingRecord(record);
+    setFormData({
+      patientName: record.patientName,
+      diagnosis: record.diagnosis,
+      treatment: record.treatment,
+      doctor: record.doctor
+    });
+    setShowEditForm(true);
+  };
+
+  const handleUpdateRecord = () => {
+    if (!editingRecord) return;
+
+    if (!formData.patientName || !formData.diagnosis || !formData.treatment || !formData.doctor) {
+      toast({
+        title: "Error",
+        description: "Semua field harus diisi",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const updatedRecords = records.map(record => 
+      record.id === editingRecord.id 
+        ? { ...record, ...formData }
+        : record
+    );
+
+    setRecords(updatedRecords);
+    setShowEditForm(false);
+    setEditingRecord(null);
+    setFormData({ patientName: '', diagnosis: '', treatment: '', doctor: '' });
+
+    toast({
+      title: "Rekam Medis Diperbarui",
+      description: `Rekam medis ${formData.patientName} berhasil diperbarui`,
+    });
+  };
+
+  const handleDeleteRecord = (recordId: number) => {
+    const recordToDelete = records.find(r => r.id === recordId);
+    const updatedRecords = records.filter(record => record.id !== recordId);
+    setRecords(updatedRecords);
+
+    toast({
+      title: "Rekam Medis Dihapus",
+      description: `Rekam medis ${recordToDelete?.patientName} telah dihapus`,
+      variant: "destructive",
+    });
+  };
+
+  const resetForm = () => {
+    setFormData({ patientName: '', diagnosis: '', treatment: '', doctor: '' });
+    setShowAddForm(false);
+    setShowEditForm(false);
+    setEditingRecord(null);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -105,7 +187,7 @@ const RecordsPage = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {mockRecords.map((record) => (
+                {records.map((record) => (
                   <tr key={record.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 text-sm font-medium text-gray-900">{record.patientName}</td>
                     <td className="px-6 py-4 text-sm text-gray-900">{record.diagnosis}</td>
@@ -115,14 +197,14 @@ const RecordsPage = () => {
                     <td className="px-6 py-4 text-sm">
                       <div className="flex space-x-2">
                         <button 
-                          onClick={() => handleEditRecord(record.patientName)}
+                          onClick={() => handleEditRecord(record)}
                           className="text-blue-600 hover:text-blue-900 p-1"
                           title="Edit Rekam Medis"
                         >
                           <Edit className="h-4 w-4" />
                         </button>
                         <button 
-                          onClick={() => handleDeleteRecord(record.patientName)}
+                          onClick={() => handleDeleteRecord(record.id)}
                           className="text-red-600 hover:text-red-900 p-1"
                           title="Hapus Rekam Medis"
                         >
@@ -145,32 +227,52 @@ const RecordsPage = () => {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Pasien</label>
-                  <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
-                    <option>Pilih Pasien</option>
-                    <option>Budi Santoso</option>
-                    <option>Siti Rahayu</option>
+                  <select 
+                    value={formData.patientName}
+                    onChange={(e) => setFormData({...formData, patientName: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                  >
+                    <option value="">Pilih Pasien</option>
+                    <option value="Budi Santoso">Budi Santoso</option>
+                    <option value="Siti Rahayu">Siti Rahayu</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Diagnosis</label>
-                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Masukkan diagnosis" />
+                  <input 
+                    type="text" 
+                    value={formData.diagnosis}
+                    onChange={(e) => setFormData({...formData, diagnosis: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2" 
+                    placeholder="Masukkan diagnosis" 
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Treatment</label>
-                  <textarea className="w-full border border-gray-300 rounded-lg px-3 py-2" rows={3} placeholder="Masukkan treatment"></textarea>
+                  <textarea 
+                    value={formData.treatment}
+                    onChange={(e) => setFormData({...formData, treatment: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2" 
+                    rows={3} 
+                    placeholder="Masukkan treatment"
+                  ></textarea>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Dokter</label>
-                  <select className="w-full border border-gray-300 rounded-lg px-3 py-2">
-                    <option>Pilih Dokter</option>
-                    <option>Dr. Ahmad</option>
-                    <option>Dr. Sarah</option>
+                  <select 
+                    value={formData.doctor}
+                    onChange={(e) => setFormData({...formData, doctor: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                  >
+                    <option value="">Pilih Dokter</option>
+                    <option value="Dr. Ahmad">Dr. Ahmad</option>
+                    <option value="Dr. Sarah">Dr. Sarah</option>
                   </select>
                 </div>
               </div>
               <div className="flex justify-end space-x-3 mt-6">
                 <button 
-                  onClick={() => setShowAddForm(false)}
+                  onClick={resetForm}
                   className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
                 >
                   Batal
@@ -180,6 +282,75 @@ const RecordsPage = () => {
                   className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
                 >
                   Simpan
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Edit Record Modal */}
+        {showEditForm && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Edit Rekam Medis</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Pasien</label>
+                  <select 
+                    value={formData.patientName}
+                    onChange={(e) => setFormData({...formData, patientName: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                  >
+                    <option value="">Pilih Pasien</option>
+                    <option value="Budi Santoso">Budi Santoso</option>
+                    <option value="Siti Rahayu">Siti Rahayu</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Diagnosis</label>
+                  <input 
+                    type="text" 
+                    value={formData.diagnosis}
+                    onChange={(e) => setFormData({...formData, diagnosis: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2" 
+                    placeholder="Masukkan diagnosis" 
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Treatment</label>
+                  <textarea 
+                    value={formData.treatment}
+                    onChange={(e) => setFormData({...formData, treatment: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2" 
+                    rows={3} 
+                    placeholder="Masukkan treatment"
+                  ></textarea>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Dokter</label>
+                  <select 
+                    value={formData.doctor}
+                    onChange={(e) => setFormData({...formData, doctor: e.target.value})}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                  >
+                    <option value="">Pilih Dokter</option>
+                    <option value="Dr. Ahmad">Dr. Ahmad</option>
+                    <option value="Dr. Sarah">Dr. Sarah</option>
+                  </select>
+                </div>
+              </div>
+              <div className="flex justify-end space-x-3 mt-6">
+                <button 
+                  onClick={resetForm}
+                  className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                >
+                  Batal
+                </button>
+                <button 
+                  onClick={handleUpdateRecord}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                >
+                  Update
                 </button>
               </div>
             </div>
