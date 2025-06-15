@@ -15,7 +15,7 @@ const ReportsPage = () => {
             </Link>
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Laporan</h1>
-              <p className="text-gray-600">Analisis dan laporan sistem EMR</p>
+              <p className="text-gray-600">Analisis dan laporan sistem Rekam Medis Elektronik</p>
             </div>
           </div>
           <div className="flex items-center space-x-2">

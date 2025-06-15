@@ -36,10 +36,10 @@ const LoginPage = () => {
             </div>
           </div>
           <h2 className="mt-6 text-3xl font-bold text-gray-900">
-            Masuk ke MedRecord
+            Klink Cinta Abadi
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Sistem Electronic Medical Records
+            Login Sistem - Rekam Medis Elektronik  
           </p>
         </div>
 
@@ -132,7 +132,7 @@ const LoginPage = () => {
 
         {/* Demo Credentials */}
         <div className="bg-white p-4 rounded-lg shadow-sm">
-          <p className="text-xs text-gray-500 text-center mb-2">Demo Credentials:</p>
+          <p className="text-xs text-gray-500 text-center mb-2">Ini Contoh Login</p>
           <p className="text-xs text-gray-600 text-center">Email: dokter@medrecord.com</p>
           <p className="text-xs text-gray-600 text-center">Password: password123</p>
         </div>

@@ -21,7 +21,7 @@ const HeroSection = () => {
               Sistem <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-600">Rekam Medis</span> Elektronik Modern
             </h1>
             <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              Kelola data pasien, rekam medis, dan riwayat kesehatan dengan sistem yang aman, 
+              Pengelola data pasien, rekam medis, dan riwayat kesehatan dengan sistem yang aman, 
               terintegrasi, dan mudah digunakan untuk meningkatkan kualitas pelayanan kesehatan.
             </p>
             

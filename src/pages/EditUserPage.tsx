@@ -140,7 +140,7 @@ const EditUserPage = () => {
               </button>
               <Link
                 to="/users"
-                className="bg-gray-300 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-400 transition-colors font-medium inline-flex items-center"
+                className="bg-red-600 text-white -700 px-8 py-3 rounded-lg hover:bg-gray-400 transition-colors font-medium inline-flex items-center"
               >
                 Batal
               </Link>

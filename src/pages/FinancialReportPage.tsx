@@ -45,7 +45,7 @@ const FinancialReportPage = () => {
               <h3 className="text-lg font-semibold text-gray-900">Pendapatan</h3>
               <DollarSign className="h-6 w-6 text-green-600" />
             </div>
-            <div className="text-3xl font-bold text-green-600">Rp 125.5M</div>
+            <div className="text-3xl font-bold text-green-600">Rp 60.2 Juta</div>
             <p className="text-gray-600">+12% dari bulan lalu</p>
           </div>
 
@@ -54,7 +54,7 @@ const FinancialReportPage = () => {
               <h3 className="text-lg font-semibold text-gray-900">Pengeluaran</h3>
               <CreditCard className="h-6 w-6 text-red-600" />
             </div>
-            <div className="text-3xl font-bold text-red-600">Rp 78.2M</div>
+            <div className="text-3xl font-bold text-red-600">Rp 40.2 Juta</div>
             <p className="text-gray-600">-5% dari bulan lalu</p>
           </div>
 
@@ -63,7 +63,7 @@ const FinancialReportPage = () => {
               <h3 className="text-lg font-semibold text-gray-900">Keuntungan</h3>
               <TrendingUp className="h-6 w-6 text-blue-600" />
             </div>
-            <div className="text-3xl font-bold text-blue-600">Rp 47.3M</div>
+            <div className="text-3xl font-bold text-blue-600">Rp 20.3 Juta</div>
             <p className="text-gray-600">+25% dari bulan lalu</p>
           </div>
         </div>

@@ -342,7 +342,7 @@ const SchedulePage = () => {
               <div className="flex justify-end space-x-3 mt-6">
                 <button 
                   onClick={resetForm}
-                  className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                  className="px-4 py-2 border border-red-600 rounded-lg text-gray-700 hover:bg-red-50"
                 >
                   Batal
                 </button>

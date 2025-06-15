@@ -15,8 +15,8 @@ const Footer = () => {
                 <Stethoscope className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold">MedRecord</h3>
-                <p className="text-sm text-gray-400">Electronic Medical Records</p>
+                <h3 className="text-xl font-bold">Klinik Cinta Abadi</h3>
+                <p className="text-sm text-gray-400">Rekam Medis Elektronik</p>
               </div>
             </Link>
             
@@ -29,11 +29,11 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-blue-400" />
-                <span className="text-gray-300">info@medrecord.co.id</span>
+                <span className="text-gray-300">info@klinikcintaabadi.co.id</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-5 w-5 text-green-400" />
-                <span className="text-gray-300">+62 21 5555-0123</span>
+                <span className="text-gray-300">+62 21 5555-000</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="h-5 w-5 text-red-400" />
@@ -206,27 +206,25 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 mb-4 md:mb-0">
-              © 2024 MedRecord. Seluruh hak cipta dilindungi.
+              © 2025 Klinik Cinta Abadi.  Seluruh hak cipta dilindungi.
             </p>
             <div className="flex space-x-6">
-              <Link 
-                to="/support"
+              <p 
+                
                 className="text-gray-400 hover:text-white transition-colors"
               >
                 Kebijakan Privasi
-              </Link>
-              <Link 
-                to="/support"
+              </p>
+              <p
                 className="text-gray-400 hover:text-white transition-colors"
               >
                 Syarat & Ketentuan
-              </Link>
-              <Link 
-                to="/support"
+              </p>
+              <p 
                 className="text-gray-400 hover:text-white transition-colors"
               >
                 Cookie Policy
-              </Link>
+              </p>
             </div>
           </div>
         </div>

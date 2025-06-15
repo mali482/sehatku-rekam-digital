@@ -93,8 +93,8 @@ const Dashboard = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Dashboard Sistem EMR</h2>
-          <p className="text-gray-600">Kelola semua data pasien dan rekam medis dalam satu platform</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">Dashboard Sistem Rekam Medis Elektronik</h2>
+          <p className="text-gray-600">Pengelola semua data pasien dan rekam medis dalam satu platform</p>
         </div>
 
         {/* Tab Navigation */}

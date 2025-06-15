@@ -45,10 +45,10 @@ const RegisterPage = () => {
             </div>
           </div>
           <h2 className="mt-6 text-3xl font-bold text-gray-900">
-            Daftar MedRecord
+            Klinik Cinta Abadi
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Bergabung dengan sistem EMR terdepan
+            Daftar akun di Rekam Medis Elektronik 
           </p>
         </div>
 
