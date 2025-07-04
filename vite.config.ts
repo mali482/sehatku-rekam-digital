@@ -5,7 +5,6 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/sehatku-rekam-digital/',
   server: {
     host: "::",
     port: 8080,
